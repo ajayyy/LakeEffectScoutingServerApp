@@ -140,7 +140,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/sheetIDTexts"
         android:layout_centerHorizontal="true"
         android:id="@+id/timeOffMatchNumTexts">
 
@@ -164,6 +164,26 @@
             android:layout_marginLeft="10dp"
             android:text="Set"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/sheetIDTexts">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sheet ID: "
+            android:id="@+id/sheetIDText"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:id="@+id/sheetID"/>
 
     </LinearLayout>
 

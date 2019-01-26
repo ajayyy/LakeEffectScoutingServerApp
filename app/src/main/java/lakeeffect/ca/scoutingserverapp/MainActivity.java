@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     Button timeOffSet;
     EditText timeOffMatchNumEditText;
     Button viewSchedule;
+    EditText sheetIDEditText;
 
     int minVersionNum;
     TimeOff targetTimeOff;
@@ -79,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
     //the last actions that have happened, used to undo actions is necessary
     ArrayList<Action> pastActions = new ArrayList<>();
     final int PAST_ACTIONS_MAX = 25;
+
+    //the sheetID used when uploading data to google sheets
+    //if blank, data will not be sent to google sheets
+    //this value is set from the UI and shared in the shared preferences
+    String sheetID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +141,35 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("minVersionNum", MODE_PRIVATE);
         minVersionNum = sharedPreferences.getInt("minVersionNum", 0);
         versionNumEditText.setText(minVersionNum + "");
+
+        //setup sheetID edit text
+        sheetIDEditText = ((EditText) findViewById(R.id.versionNum));
+        sheetIDEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (sheetIDEditText.getText().toString().equals("")) return;
+
+                sheetID = sheetIDEditText.getText().toString();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("sheetID", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("sheetID", sheetID);
+                editor.apply();
+            }
+        });
+        SharedPreferences sheetIDSharedPreferences = getSharedPreferences("sheetID", MODE_PRIVATE);
+        sheetID = sheetIDSharedPreferences.getString("sheetID", "");
+        sheetIDEditText.setText(sheetID);
 
         //load schedule into memory
         try {
@@ -1325,5 +1360,8 @@ public class MainActivity extends AppCompatActivity {
         }catch(IOException e){
             e.printStackTrace();
         }
+
+
+
     }
 }
